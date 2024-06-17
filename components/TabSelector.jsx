@@ -5,24 +5,29 @@ const TabSelector = () => {
   const [tab, setTab] = React.useState(true);
 
   return (
-    <div className="flex justify-start md:px-20">
-      <div
-        className={`px-4 mx-1 ${tab ? "font-semibold" : null} cursor-pointer`}
-        onClick={() => {
-          setTab(!tab);
-        }}
-      >
-        By Tags
+    <>
+      <div className="flex justify-start md:px-20">
+        <div
+          className={`px-4 mx-1 ${tab ? "font-semibold" : null} cursor-pointer`}
+          onClick={() => {
+            setTab(!tab);
+          }}
+        >
+          By Tags
+        </div>
+        <div
+          className={`px-4 mx-1 ${
+            !tab ? "font-semibold" : null
+          } cursor-pointer`}
+          onClick={() => {
+            setTab(!tab);
+          }}
+        >
+          By Author
+        </div>
       </div>
-      <div
-        className={`px-4 mx-1 ${!tab ? "font-semibold" : null} cursor-pointer`}
-        onClick={() => {
-          setTab(!tab);
-        }}
-      >
-        By Author
-      </div>
-    </div>
+      
+    </>
   );
 };
 
