@@ -9,7 +9,7 @@ export const metadata = {
 const Home = async () => {
   try {
     const quoteData = await fetch(
-      "https://darkastic.com/wp-json/wp/v2/quotes?acf_format=standard"
+      "https://darkastic.com/wp-json/wp/v2/quotes?acf_format=standard",{cache:'no-store'}
     );
 
     if (!quoteData.ok) {
