@@ -18,9 +18,12 @@ const Home = async () => {
         </section>
       );
     }
-
     const quoteDataJson = await quoteData.json();
-    const quotes = quoteDataJson.map((ele) => ele.acf);
+    const quotes = quoteDataJson.map((ele) => {
+      const quote = ele.acf;
+      quote.id = ele.id
+      return quote
+    });
 
     return (
       <section className="bg-white px-4 text-black">

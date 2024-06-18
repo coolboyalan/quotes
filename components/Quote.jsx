@@ -6,6 +6,7 @@ import { FaShare } from "react-icons/fa";
 import { toPng } from "html-to-image";
 import { FaRegHeart } from "react-icons/fa";
 import React from "react";
+import Link from "next/link";
 
 const Quote = ({ quote }) => {
   const elementRef = React.useRef(null);
@@ -33,7 +34,9 @@ const Quote = ({ quote }) => {
         <div>
           <div className="p-3">{quote.author}</div>
           <div className="flex justify-between p-3">
-            <RiEdit2Fill className="cursor-pointer" />
+            <Link href={`/quote/edit?id=${quote.id}`} data={quote}>
+              <RiEdit2Fill className="cursor-pointer" />
+            </Link>
             <FaRegHeart className="cursor-pointer" />
             <FaShare onClick={htmlToImageConvert} className="cursor-pointer" />
           </div>
