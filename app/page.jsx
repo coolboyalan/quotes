@@ -1,5 +1,4 @@
 import Quote from "@/components/Quote";
-import TabSelector from "@/components/TabSelector";
 
 export const metadata = {
   title: "Darkastic",
@@ -14,7 +13,7 @@ const Home = async () => {
 
     if (!quoteData.ok) {
       return (
-        <section className="bg-white px-4 text-black">
+        <section className="bg-white px-4 text-black min-h-100vh">
          'No quotes found'
         </section>
       );
@@ -25,8 +24,7 @@ const Home = async () => {
 
     return (
       <section className="bg-white px-4 text-black">
-        <TabSelector />
-        <div className="flex flex-wrap md:px-20 pb-20 justify-center md:justify-normal">
+        <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
           {quotes.map((ele, index) => {
             return <Quote key={index} quote={ele} />;
           })}

@@ -6,7 +6,7 @@ const TabSelector = () => {
 
   return (
     <>
-      <div className="flex justify-start md:px-20">
+      <div className="flex justify-start md:px-24">
         <div
           className={`px-4 mx-1 ${tab ? "font-semibold" : null} cursor-pointer`}
           onClick={() => {
