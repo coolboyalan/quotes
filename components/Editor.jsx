@@ -171,7 +171,7 @@ const QuoteEditor = ({ quote }) => {
 
   return (
     <>
-      <div className={`m-4 h-[380px] w-[200px]`}>
+      <div className={`m-4 h-[380px] w-[230px]`}>
         <div
           ref={elementRef}
           className="bg-slate-100 h-full w-full flex flex-col justify-between rounded shadow-xl"
