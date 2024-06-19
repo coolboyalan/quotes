@@ -197,12 +197,12 @@ const QuoteEditor = ({ quote }) => {
             >
               {quote.author}
             </div>
-            <div className="flex justify-end p-3 text-2xl">
+            {/* <div className="flex justify-end p-3 text-2xl">
               <FaShare
                 onClick={htmlToImageConvert}
                 className="cursor-pointer"
               />
-            </div>
+            </div> */}
           </div>
         </div>
         <button className="p-2 rounded px-4 hidden md:block bg-black my-4 text-white">
@@ -304,6 +304,9 @@ const QuoteEditor = ({ quote }) => {
             </div>
           </div>
         </div>
+        <button className="p-2 rounded px-4  bg-black my-4 text-white" onClick={htmlToImageConvert}>
+          Download Photo
+        </button>
         <button className="p-2 rounded px-4 md:hidden bg-black my-4 text-white">
           Save to Library
         </button>
