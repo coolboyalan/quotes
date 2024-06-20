@@ -105,7 +105,8 @@ const QuoteEditor = ({ quote }) => {
   const [quoteFont, setQuoteFont] = React.useState(roboto.style.fontFamily);
   const [authorFont, setAuthorFont] = React.useState(roboto.style.fontFamily);
 
-  const [bgImage, setBGImage] = React.useState();
+  const [bgImage, setBgImage] = React.useState();
+  const [bgColor, setBgColor] = React.useState();
 
   const elementRef = React.useRef(null);
 
@@ -183,6 +184,7 @@ const QuoteEditor = ({ quote }) => {
         />
         <div
           className="h-full w-full flex flex-col justify-between absolute z-10"
+          style={{ backgroundColor: bgColor }}
         >
           <div
             className="text-2xl font-semibold p-3"
@@ -267,13 +269,22 @@ const QuoteEditor = ({ quote }) => {
         </div>
         <div className="bg-slate-100 h-full w-full flex flex-col rounded shadow-xl">
           <input
+            type="color"
+            value={quoteColor}
+            id="colorPicker"
+            className="w-full px-2 rounded my-2"
+            onChange={(event) => {
+              setBgColor(event.target.value);
+            }}
+          />
+          <input
             type="file"
             accept="image/*"
             className="py-1 px-2"
             placeholder="Select"
             onChange={(event) => {
-              setBGImage(event.target.files[0]);
-              console.log(bgImage);
+              setBgImage(event.target.files[0]);
+              setBgColor('transparent')
             }}
           />
         </div>

@@ -10,7 +10,7 @@ const QuoteEditPage = async ({ searchParams }) => {
   if (quoteData.ok) {
       const quoteDataJson = await quoteData.json();
       return (
-        <section className="bg-white px-4 text-black">
+        <section className="bg-white px-4 text-black min-h-[80vh]">
           <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
             <QuoteEditor quote={quoteDataJson} />;
           </div>

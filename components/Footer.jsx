@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <footer className="bg-white text-black">
       <div className=" bg-black py-[1px]"></div>
-      <div className="md:px-24 px-4 py-6 text-center md:flex justify-between items-center">
+      <div className="md:px-24 px-4 py-2 text-center md:flex justify-between items-center">
         <Link href={'/'}>
           {" "}
           <div className="md:text-6xl text-4xl">

@@ -26,7 +26,7 @@ const Home = async () => {
     });
 
     return (
-      <section className="bg-white px-4 text-black">
+      <section className="bg-white px-4 text-black min-h-[80vh]">
         <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
           {quotes.map((ele, index) => {
             return <Quote key={index} quote={ele} />;
