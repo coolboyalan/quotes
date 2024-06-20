@@ -105,6 +105,8 @@ const QuoteEditor = ({ quote }) => {
   const [quoteFont, setQuoteFont] = React.useState(roboto.style.fontFamily);
   const [authorFont, setAuthorFont] = React.useState(roboto.style.fontFamily);
 
+  const [bgImage, setBGImage] = React.useState();
+
   const elementRef = React.useRef(null);
 
   const searchParams = useSearchParams();
@@ -171,10 +173,16 @@ const QuoteEditor = ({ quote }) => {
 
   return (
     <>
-      <div className={`m-4 h-[380px] w-[230px]`}>
+      <div
+        ref={elementRef}
+        className={`h-[380px] w-[230px] relative bg-slate-100 rounded shadow-xl overflow-hidden`}
+      >
+        <img
+          src={bgImage ? URL.createObjectURL(bgImage) : null}
+          className=" absolute object-cover h-full "
+        />
         <div
-          ref={elementRef}
-          className="bg-slate-100 h-full w-full flex flex-col justify-between rounded shadow-xl"
+          className="h-full w-full flex flex-col justify-between absolute z-10"
         >
           <div
             className="text-2xl font-semibold p-3"
@@ -205,11 +213,11 @@ const QuoteEditor = ({ quote }) => {
             </div> */}
           </div>
         </div>
-        <button className="p-2 rounded px-4 hidden md:block bg-black my-4 text-white">
+        {/* <button className="p-2 rounded px-4 hidden md:block bg-black my-4 text-white">
           Save to Library
-        </button>
+        </button> */}
       </div>
-      <div className="m-4 h-[380px] w-[200px] text-black flex flex-col justify-between">
+      <div className=" mx-4 my-4 md:my-0 h-[380px] w-[200px] text-black flex flex-col justify-between">
         <div className="bg-slate-100 h-full w-full flex flex-col rounded shadow-xl">
           <select
             name="font"
@@ -258,6 +266,18 @@ const QuoteEditor = ({ quote }) => {
           </div>
         </div>
         <div className="bg-slate-100 h-full w-full flex flex-col rounded shadow-xl">
+          <input
+            type="file"
+            accept="image/*"
+            className="py-1 px-2"
+            placeholder="Select"
+            onChange={(event) => {
+              setBGImage(event.target.files[0]);
+              console.log(bgImage);
+            }}
+          />
+        </div>
+        <div className="bg-slate-100 h-full w-full flex flex-col rounded shadow-xl">
           <select
             name="font"
             id="font"
@@ -304,12 +324,15 @@ const QuoteEditor = ({ quote }) => {
             </div>
           </div>
         </div>
-        <button className="p-2 rounded px-4  bg-black my-4 text-white" onClick={htmlToImageConvert}>
+        <button
+          className="p-2 rounded px-4  bg-black my-4 text-white"
+          onClick={htmlToImageConvert}
+        >
           Download Photo
         </button>
-        <button className="p-2 rounded px-4 md:hidden bg-black my-4 text-white">
+        {/* <button className="p-2 rounded px-4 md:hidden bg-black my-4 text-white">
           Save to Library
-        </button>
+        </button> */}
       </div>
     </>
   );
