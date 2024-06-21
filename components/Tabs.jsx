@@ -1,84 +1,55 @@
-'use client'
+"use client";
 import React from "react";
+import SavedQuote from "@/components/SavedQuote";
+import Quote from "./Quote";
 
-const Tabs = () => {
+const Tabs = async () => {
   const [openTab, setOpenTab] = React.useState(1);
+  const [library, setLibrary] = React.useState(true);
+
+  const quoteData = await fetch(
+    "https://darkastic.com/wp-json/wp/v2/quotes?acf_format=standard",
+    { cache: "no-store" }
+  );
+
+  if (!quoteData.ok) {
+    return (
+      <section className="bg-white px-4 text-black min-h-100vh">
+        'No quotes found'
+      </section>
+    );
+  }
+  const quoteDataJson = await quoteData.json();
+  const quotes = quoteDataJson.map((ele) => {
+    const quote = ele.acf;
+    quote.id = ele.id;
+    return quote;
+  });
+
   return (
     <>
-      <div className="flex flex-wrap">
-        <div className="w-full">
-          <ul
-            className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
-            role="tablist"
-          >
-            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-              <a
-                className={
-                  "text-xs font-bold uppercase px-1 py-3 shadow-lg rounded block leading-normal " +
-                  (openTab === 1
-                    ? "text-white bg-" + "black"
-                    : "text-" + "black bg-white")
-                }
-                onClick={(e) => {
-                  e.preventDefault();
-                  setOpenTab(1);
-                }}
-                data-toggle="tab"
-                href="#link1"
-                role="tablist"
-              >
-                My Library
-              </a>
-            </li>
-            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
-              <a
-                className={
-                  "text-xs font-bold uppercase px-1 py-3 shadow-lg rounded block leading-normal " +
-                  (openTab === 2
-                    ? "text-white bg-" + "black"
-                    : "text-" + "black bg-white")
-                }
-                onClick={(e) => {
-                  e.preventDefault();
-                  setOpenTab(2);
-                }}
-                data-toggle="tab"
-                href="#link2"
-                role="tablist"
-              >
-                My Favorites
-              </a>
-            </li>
-            
-          </ul>
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded">
-            <div className="px-1 py-5 flex-auto">
-              <div className="tab-content tab-space">
-                <div className={openTab === 1 ? "block" : "hidden"} id="link1">
-                  <p>
-                    Collaboratively administrate empowered markets via
-                    plug-and-play networks. Dynamically procrastinate B2C users
-                    after installed base benefits.
-                    <br />
-                    <br /> Dramatically visualize customer directed convergence
-                    without revolutionary ROI.
-                  </p>
-                </div>
-                <div className={openTab === 2 ? "block" : "hidden"} id="link2">
-                  <p>
-                    Completely synergize resource taxing relationships via
-                    premier niche markets. Professionally cultivate one-to-one
-                    customer service with robust ideas.
-                    <br />
-                    <br />
-                    Dynamically innovate resource-leveling customer service for
-                    state of the art customer service.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div className="flex flex-wrap ">
+        <div
+          className={`text-xl ${
+            library ? "font-bold" : null
+          }  text-black mr-2 cursor-pointer`}
+          onClick={() => setLibrary(!library)}
+        >
+          My Library
         </div>
+        <div
+          className={`text-xl ${
+            !library ? "font-bold" : null
+          }  text-black mr-2 cursor-pointer`}
+          onClick={() => setLibrary(!library)}
+        >
+          My Favorites
+        </div>
+      </div>
+      <div className="flex flex-wrap md:justify-normal justify-center">
+        {quotes.map((ele, index) => {
+          return <Quote key={index} quote={ele} />;
+        })}
       </div>
     </>
   );
@@ -87,7 +58,7 @@ const Tabs = () => {
 export default function TabsRender() {
   return (
     <>
-       <Tabs />;
+      <Tabs />
     </>
   );
 }

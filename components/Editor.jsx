@@ -106,7 +106,7 @@ const QuoteEditor = ({ quote }) => {
   const [authorFont, setAuthorFont] = React.useState(roboto.style.fontFamily);
 
   const [bgImage, setBgImage] = React.useState();
-  const [bgColor, setBgColor] = React.useState();
+  const [bgColor, setBgColor] = React.useState("transparent");
 
   const elementRef = React.useRef(null);
 
@@ -178,10 +178,12 @@ const QuoteEditor = ({ quote }) => {
         ref={elementRef}
         className={`h-[380px] w-[230px] relative bg-slate-100 rounded shadow-xl overflow-hidden`}
       >
-        <img
-          src={bgImage ? URL.createObjectURL(bgImage) : null}
-          className=" absolute object-cover h-full "
-        />
+        {bgImage ? (
+          <img
+            src={bgImage ? URL.createObjectURL(bgImage) : null}
+            className=" absolute object-cover h-full "
+          />
+        ) : null}
         <div
           className="h-full w-full flex flex-col justify-between absolute z-10"
           style={{ backgroundColor: bgColor }}
@@ -284,7 +286,7 @@ const QuoteEditor = ({ quote }) => {
             placeholder="Select"
             onChange={(event) => {
               setBgImage(event.target.files[0]);
-              setBgColor('transparent')
+              setBgColor("transparent");
             }}
           />
         </div>

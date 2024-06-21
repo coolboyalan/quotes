@@ -23,7 +23,7 @@ const QuoteEditPage = async ({ searchParams }) => {
         <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
           <QuoteEditor quote={quoteDataJson} />;
         </div>
-        <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
+        <div className="md:px-20 pb-20 pt-10 justify-center md:justify-normal">
           <Profile />
         </div>
       </section>

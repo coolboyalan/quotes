@@ -20,6 +20,7 @@ const UserForm = () => {
         redirect: false,
       });
       if (login?.error) {
+        console.log(login)
         window.alert("Incorrect credentials");
       } else {
         router.push('/')
