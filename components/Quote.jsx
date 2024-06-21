@@ -25,7 +25,7 @@ const Quote = ({ quote }) => {
   };
 
   return (
-    <div className="md:m-4 m-2 md:h-[380px] md:w-[240px] h-[500px] w-[280px]">
+    <div className="md:m-4 m-2 md:h-[380px] md:w-[240px] h-[72vh] w-[280px]">
       <div
         ref={elementRef}
         className=" bg-slate-100 h-full w-full flex flex-col justify-between rounded shadow-xl"

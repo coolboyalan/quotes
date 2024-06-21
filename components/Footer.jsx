@@ -13,7 +13,7 @@ const Footer = () => {
     <footer className="bg-white text-black">
       <div className=" bg-black py-[1px]"></div>
       <div className="md:px-24 px-4 py-2 text-center md:flex justify-between items-center">
-        <Link href={'/'}>
+        <Link href={"/"}>
           {" "}
           <div className="md:text-6xl text-4xl">
             <span className=" font-bold">DARK</span>ASTIC
@@ -34,7 +34,9 @@ const Footer = () => {
               <FaInstagram className="px-2 text-4xl rounded cursor-pointer" />
             </Link>
           </div>
-          <FaRobot className="px-4 text-6xl" />
+          <Link href={"/user"}>
+            <FaRobot className="px-4 text-6xl" />
+          </Link>
           <div></div>
         </div>
       </div>

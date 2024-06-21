@@ -18,11 +18,6 @@ const Header = () => {
           </div>
         </Link>
         <div className="flex items-center">
-          <Link href={'/user'}>
-            <button className="bg-black px-2 py-1 text-white rounded-md mr-6">
-              Account
-            </button>
-          </Link>
           <GiSettingsKnobs
             className="md:text-4xl text-2xl cursor-pointer font-bold"
             onClick={() => {

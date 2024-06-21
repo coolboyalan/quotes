@@ -1,9 +1,33 @@
 "use client";
 
 import React from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const UserForm = () => {
+  const router = useRouter();
   const [login, setLogin] = React.useState(true);
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+
+      const login = await signIn("credentials", {
+        username,
+        password,
+        redirect: false,
+      });
+      if (login?.error) {
+        window.alert("Incorrect credentials");
+      } else {
+        router.push('/')
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className="text-black py-10 bg-white min-h-[80vh] flex items-center">
@@ -20,7 +44,7 @@ const UserForm = () => {
         </div>
 
         {login ? (
-          <form id="loginForm" className="block ">
+          <form id="loginForm" className="block" method="post">
             <div className="mb-4">
               <label htmlFor="username" className="block mb-2">
                 Username
@@ -31,6 +55,9 @@ const UserForm = () => {
                 name="username"
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 required
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
               />
             </div>
             <div className="mb-4">
@@ -43,11 +70,15 @@ const UserForm = () => {
                 name="password"
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 required
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
               />
             </div>
             <button
               type="submit"
               className="w-full py-2 px-4 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition duration-300"
+              onClick={handleSubmit}
             >
               Login
             </button>
