@@ -10,7 +10,7 @@ const Header = () => {
   const [filter, setFilter] = React.useState(false);
 
   return (
-    <header className="bg-white text-black sticky top-0">
+    <header className="bg-white text-black sticky top-0 z-20">
       <div className="md:px-24 px-4 py-6 flex justify-between items-center">
         <Link href={"/"}>
           <div className="md:text-6xl text-3xl">
