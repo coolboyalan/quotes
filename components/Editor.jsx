@@ -106,10 +106,9 @@ const QuoteEditor = ({ quote }) => {
   const [authorFont, setAuthorFont] = React.useState(roboto.style.fontFamily);
 
   const [bgImage, setBgImage] = React.useState();
-  const [bgColor, setBgColor] = React.useState("transparent");
+  const [bgColor, setBgColor] = React.useState("#F1F5F9");
 
   const elementRef = React.useRef(null);
-
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
@@ -175,51 +174,44 @@ const QuoteEditor = ({ quote }) => {
   return (
     <>
       <div
+        className="md:h-[380px] md:w-[240px] h-[72vh] w-[280px] overflow-hidden rounded shadow-xl relative"
         ref={elementRef}
-        className={`h-[380px] w-[230px] relative bg-slate-100 rounded shadow-xl overflow-hidden`}
       >
         {bgImage ? (
           <img
             src={bgImage ? URL.createObjectURL(bgImage) : null}
-            className=" absolute object-cover h-full "
+            className="object-cover md:h-[380px] md:w-[240px] h-[72vh] w-[280px] rounded shadow-xl absolute"
           />
         ) : null}
-        <div
-          className="h-full w-full flex flex-col justify-between absolute z-10"
-          style={{ backgroundColor: bgColor }}
-        >
+        <div className="md:h-[380px] md:w-[240px] h-[72vh] w-[280px] overflow-hidden rounded shadow-xl absolute z-10">
           <div
-            className="text-2xl font-semibold p-3"
-            style={{
-              color: quoteColor,
-              textAlign: quoteAlign,
-              fontFamily: quoteFont,
-            }}
+            className="h-full w-full flex flex-col justify-between"
+            style={{ backgroundColor: bgColor }}
           >
-            {quote.quote}
-          </div>
-          <div>
             <div
-              className="p-3"
+              className="text-2xl font-semibold p-3"
               style={{
-                color: authorColor,
-                textAlign: authorAlign,
-                fontFamily: authorFont,
+                color: quoteColor,
+                textAlign: quoteAlign,
+                fontFamily: quoteFont,
               }}
             >
-              {quote.author}
+              {quote.quote}
             </div>
-            {/* <div className="flex justify-end p-3 text-2xl">
-              <FaShare
-                onClick={htmlToImageConvert}
-                className="cursor-pointer"
-              />
-            </div> */}
+            <div>
+              <div
+                className="p-3"
+                style={{
+                  color: authorColor,
+                  textAlign: authorAlign,
+                  fontFamily: authorFont,
+                }}
+              >
+                {quote.author}
+              </div>
+            </div>
           </div>
         </div>
-        {/* <button className="p-2 rounded px-4 hidden md:block bg-black my-4 text-white">
-          Save to Library
-        </button> */}
       </div>
       <div className=" mx-4 my-4 md:my-0 h-[380px] w-[200px] text-black flex flex-col justify-between">
         <div className="bg-slate-100 h-full w-full flex flex-col rounded shadow-xl">
@@ -277,6 +269,7 @@ const QuoteEditor = ({ quote }) => {
             className="w-full px-2 rounded my-2"
             onChange={(event) => {
               setBgColor(event.target.value);
+              setBgImage(null);
             }}
           />
           <input
