@@ -1,9 +1,23 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 
-const TabSelector = () => {
+const TabSelector =  ({tags}) => {
   const [tab, setTab] = React.useState(true);
 
+  const sorted = {};
+  let list;
+  for (let i = 65; i <= 90; i++) {
+    sorted[String.fromCharCode(i)] = [];
+  }
+
+  tags?.forEach((ele, index) => {
+    const tag = ele.slice(0, 1)
+    sorted[tag].push(ele)
+  })
+  Object.keys(sorted).map(function (key) {
+    console.log(key,sorted[key])
+  });
   return (
     <>
       <div className="flex justify-start md:px-24">
@@ -26,7 +40,42 @@ const TabSelector = () => {
           By Author
         </div>
       </div>
-      
+      <div className="bg-black py-[0.5px] mt-6 mb-2 w-full"></div>
+      <ol className=" text-black md:px-24 py-2 list-[upper-latin] relative">
+        {Object.keys(sorted).map((ele, index) => {
+          if (sorted[ele].length < 1) {
+            return (
+              <li
+                className="px-6 py-1 absolute -z-20 text-transparent"
+                key={index}
+              >
+                {/* <ul className=" list-none">
+                  <li>Test123</li>
+                  <li>Test123</li>
+                  <li>Test123</li>
+                  <li>Test123</li>
+                </ul> */}
+              </li>
+            );
+          }
+
+          return (
+            <li className="px-6 py-1 " key={index}>
+              <ul className=" list-none">
+                {sorted[ele].map((key, index) => {
+                  return (
+                    <Link href={`${key}`}>
+                      <li key={index} className="py-1 font-semibold">
+                        {key}
+                      </li>
+                    </Link>
+                  );
+                })}
+              </ul>
+            </li>
+          );
+        })}
+      </ol>
     </>
   );
 };

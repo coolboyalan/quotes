@@ -1,13 +1,22 @@
-"use client";
-
-import { GiSettingsKnobs } from "react-icons/gi";
-import SearchBar from "./SearchBar";
-import TabSelector from "./TabSelector";
+import { HeaderFilter, FilterButton } from "./HeaderFilter";
 import React from "react";
 import Link from "next/link";
 
-const Header = () => {
-  const [filter, setFilter] = React.useState(false);
+const Header = async () => {
+  let tags;
+  try {
+    tags = await fetch(
+      `${process.env.URL}/wp-json/wp/v2/quoteTags?acf_format=standard`
+    );
+    if (tags.ok);
+    tags = await tags.json();
+    tags = tags.map((ele, index) => {
+      return ele.name
+    })
+    // tags = tags.sort()
+  } catch (err) {
+    console.log(err);
+  }
 
   return (
     <header className="bg-white text-black sticky top-0 z-20">
@@ -18,21 +27,12 @@ const Header = () => {
           </div>
         </Link>
         <div className="flex items-center">
-          <GiSettingsKnobs
-            className="md:text-4xl text-2xl cursor-pointer font-bold"
-            onClick={() => {
-              setFilter(!filter);
-            }}
-          />
+          <FilterButton />
         </div>
       </div>
-      <div className=" bg-black py-[1px]"></div>
-      {filter ? (
-        <>
-          <SearchBar />
-          <TabSelector />
-        </>
-      ) : null}
+      <div className=" bg-white py-[1px]">
+        <HeaderFilter tags={tags} />
+      </div>
     </header>
   );
 };
