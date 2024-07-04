@@ -14,9 +14,6 @@ const TabSelector =  ({tags}) => {
     const tag = ele.slice(0, 1)
     sorted[tag].push(ele)
   })
-  Object.keys(sorted).map(function (key) {
-    console.log(key,sorted[key])
-  });
   return (
     <>
       <div className="flex justify-start md:px-24">
@@ -57,8 +54,8 @@ const TabSelector =  ({tags}) => {
               <ul className="">
                 {sorted[ele].map((key, index) => {
                   return (
-                    <Link href={`${key}`}>
-                      <li key={index} className="py-1 hover:font-semibold w-fit">
+                    <Link href={`${key}`} key={index}>
+                      <li className="py-1 hover:font-semibold w-fit">
                         {key}
                       </li>
                     </Link>

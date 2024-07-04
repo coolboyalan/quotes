@@ -1,7 +1,9 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { UserModel } from "@/models/models";
+import {compare} from "bcrypt"
 
-const authOptions = ({
+const authOptions = {
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -15,50 +17,70 @@ const authOptions = ({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const url = `${process.env.URL}/wp-json/api/v1/token`;
-        const options = {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: credentials?.username,
-            password: credentials?.password,
-          }),
-          url,
-        };
-
-        const apiRequest = await fetch(options);
-
-        if (apiRequest.ok) {
-          const user = await apiRequest.json();
-          console.log(user);
-          return {
-            username: credentials?.username,
-            token: user?.jwt_token,
-          };
-        } else {
-          const user = await apiRequest.json();
-          console.log(user);
+        if (
+          !credentials?.username ||
+          !credentials?.password
+        ) {
           return null;
         }
+        let existingUser;
+
+        try {
+          existingUser = await UserModel.findOne({
+            where: { username: credentials.username },
+          });
+        } catch (err) {
+          console.log(err);
+          return true;
+        }
+
+        if (!existingUser) {
+          return null;
+        }
+
+        // const passwordMatch = await compare(
+        //   credentials.password,
+        //   existingUser.password
+        // );
+
+        // if (!passwordMatch) {
+        //   return null;
+        // }
+
+        return {
+          id: `${existingUser.id}`,
+          username: existingUser.username,
+        };
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
-      return { ...token, ...user };
+      if (user) {
+        return {
+          ...token,
+          username: user.username,
+          id: user.id,
+        };
+      }
+      return token;
     },
-    async session({ session, token, user }) {
-      session.user = token;
-      return session;
+    async session({ session, token }) {
+      const output = {
+        ...session,
+        user: {
+          ...session.user,
+          username: token.username,
+          id: token.id,
+        },
+      };
+      return output;
     },
   },
   pages: {
     signIn: "/user",
   },
-});
+};
 
 const handler = NextAuth(authOptions);
 

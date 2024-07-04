@@ -169,8 +169,6 @@ const QuoteEditor = ({ quote }) => {
     // Add more fonts as needed
   ];
 
-  quote = quote.acf;
-
   return (
     <>
       <div

@@ -1,4 +1,5 @@
 import Quote from "@/components/Quote";
+import { QuoteModel,UserModel } from "@/models/models";
 
 export const metadata = {
   title: "Darkastic",
@@ -7,23 +8,20 @@ export const metadata = {
 
 const Home = async () => {
   try {
-    const quoteData = await fetch(
-      "https://darkastic.com/wp-json/wp/v2/quotes?acf_format=standard",{cache:'no-store'}
-    );
+    let quoteData = await QuoteModel.findAll({
+    });
 
-    if (!quoteData.ok) {
+    const quotes = quoteData.map((ele) => {
+      return ele.dataValues;
+    });
+
+    if (!quotes?.length) {
       return (
         <section className="bg-white px-4 text-black min-h-100vh">
-         'No quotes found'
+          'No quotes found'
         </section>
       );
     }
-    const quoteDataJson = await quoteData.json();
-    const quotes = quoteDataJson.map((ele) => {
-      const quote = ele.acf;
-      quote.id = ele.id
-      return quote
-    });
 
     return (
       <section className="bg-white px-4 text-black min-h-[80vh]">
