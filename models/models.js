@@ -2,24 +2,24 @@ import sequelize from "@/db/sequelize";
 import UserModel from "./User";
 import QuoteModel from "./Quote";
 
-const LikedQuote = sequelize.define("LikedQuote", {
+const likedQuote = sequelize.define("likedQuote", {
   // Additional fields for the join table if needed
 });
 
 UserModel.belongsToMany(QuoteModel, {
-  through: LikedQuote,
+  through: likedQuote,
   as: "likedQuotes",
   foreignKey: "userId",
   otherKey: "quoteId",
 });
 
 QuoteModel.belongsToMany(UserModel, {
-  through: LikedQuote,
+  through: likedQuote,
   as: "likers",
   foreignKey: "quoteId",
   otherKey: "userId",
 });
 
-await sequelize.sync({ alter: true });
+await sequelize.sync({});
 
-export { UserModel, QuoteModel, LikedQuote };
+export { UserModel, QuoteModel, likedQuote };
