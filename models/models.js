@@ -20,6 +20,6 @@ QuoteModel.belongsToMany(UserModel, {
   otherKey: "userId",
 });
 
-await sequelize.sync({});
+await sequelize.sync({alter:true,force:true});
 
 export { UserModel, QuoteModel, likedQuote };
