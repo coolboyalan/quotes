@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const Account = async () => {
   const session = await getServerSession(authOptions);
-  console.log(session);
+
   if (!session) {
     return (
       <>

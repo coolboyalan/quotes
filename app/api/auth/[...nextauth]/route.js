@@ -1,6 +1,6 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { UserModel } from "@/models/models";
+import db from "@/db/db";
 import {compare} from "bcrypt"
 
 const authOptions = {
@@ -26,9 +26,11 @@ const authOptions = {
         let existingUser;
 
         try {
-          existingUser = await UserModel.findOne({
-            where: { username: credentials.username },
-          });
+          existingUser = await db.user.findFirst({
+            where: {
+              username: credentials.username,
+            }
+          })
         } catch (err) {
           console.log(err);
           return true;
@@ -38,14 +40,14 @@ const authOptions = {
           return null;
         }
 
-        // const passwordMatch = await compare(
-        //   credentials.password,
-        //   existingUser.password
-        // );
+        const passwordMatch = await compare(
+          credentials.password,
+          existingUser.password
+        );
 
-        // if (!passwordMatch) {
-        //   return null;
-        // }
+        if (!passwordMatch) {
+          return null;
+        }
 
         return {
           id: `${existingUser.id}`,

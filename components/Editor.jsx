@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation";
 import { RiAlignItemLeftFill } from "react-icons/ri";
 import { RiAlignItemHorizontalCenterFill } from "react-icons/ri";
 import { RiAlignItemRightFill } from "react-icons/ri";
-import { FaShare } from "react-icons/fa";
 import { toPng } from "html-to-image";
 import React from "react";
 import {

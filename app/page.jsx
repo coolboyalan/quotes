@@ -1,5 +1,7 @@
 import Quote from "@/components/Quote";
-import { QuoteModel,UserModel } from "@/models/models";
+import db from "@/db/db";
+import { name } from "faker/lib/locales/az";
+import id from "faker/lib/locales/id_ID";
 
 export const metadata = {
   title: "Darkastic",
@@ -8,14 +10,19 @@ export const metadata = {
 
 const Home = async () => {
   try {
-    let quoteData = await QuoteModel.findAll({
+    const quoteData = await db.quote.findMany({
+      select: {
+        quote: true,
+        id: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
-
-    const quotes = quoteData.map((ele) => {
-      return ele.dataValues;
-    });
-
-    if (!quotes?.length) {
+    console.log(quoteData);
+    if (!quoteData?.length) {
       return (
         <section className="bg-white px-4 text-black min-h-100vh">
           'No quotes found'
@@ -23,6 +30,13 @@ const Home = async () => {
       );
     }
 
+    const quotes = quoteData.map((ele) => {
+      return {
+        author: ele.author.name,
+        quote: ele.quote,
+        id: ele.id,
+      };
+    });
     return (
       <section className="bg-white px-4 text-black min-h-[80vh]">
         <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">

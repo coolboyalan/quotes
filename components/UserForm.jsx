@@ -9,8 +9,9 @@ const UserForm = () => {
   const [login, setLogin] = React.useState(true);
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [email, setEmail] = React.useState("");
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     try {
       event.preventDefault();
 
@@ -20,14 +21,51 @@ const UserForm = () => {
         redirect: false,
       });
       if (login?.error) {
-        console.log(login)
         window.alert("Incorrect credentials");
       } else {
-        router.push('/')
+        router.push("/");
       }
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+
+    const signup = {
+      username,
+      password,
+      email,
+    };
+
+    const url = "http://localhost:3000/api/user";
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(signup),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return { status: 409 };
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data.status === 409) {
+          return window.alert("Account already exists");
+        }
+        window.alert("account created successfully");
+      })
+      .catch((error) => {
+        if (error.status === 409) {
+          return window.alert("Account already exists");
+        }
+        window.alert("Internal Error");
+      });
   };
 
   return (
@@ -79,13 +117,13 @@ const UserForm = () => {
             <button
               type="submit"
               className="w-full py-2 px-4 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition duration-300"
-              onClick={handleSubmit}
+              onClick={handleLogin}
             >
               Login
             </button>
           </form>
         ) : (
-          <form id="signupForm" className="block">
+          <form id="signupForm" className="block" method="post">
             <div className="mb-4">
               <label htmlFor="username" className="block mb-2">
                 Username
@@ -96,6 +134,9 @@ const UserForm = () => {
                 name="username"
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 required
+                onChange={(event) => {
+                  setUsername(event.target.value);
+                }}
               />
             </div>
             <div className="mb-4">
@@ -108,6 +149,9 @@ const UserForm = () => {
                 name="email"
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 required
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
               />
             </div>
             <div className="mb-4">
@@ -120,10 +164,14 @@ const UserForm = () => {
                 name="password"
                 className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 required
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
               />
             </div>
             <button
               type="submit"
+              onClick={handleSignUp}
               className="w-full py-2 px-4 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition duration-300"
             >
               Sign Up
