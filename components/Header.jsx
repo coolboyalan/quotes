@@ -17,13 +17,12 @@ const Header = async () => {
     authors = await db.author.findMany({
       select: {
         name: true,
+        id:true
       },
     });
 
     authors = authors.sort((a, b) => a.name.localeCompare(b.name));
-    authors = authors.map((ele, index) => {
-      return ele.name;
-    });
+
   } catch (err) {
     console.log(err);
   }

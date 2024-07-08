@@ -4,6 +4,12 @@ import Link from "next/link";
 
 const TabSelector = ({ tags, authors }) => {
   const [tab, setTab] = React.useState(true);
+  const authorData = {};
+
+  authors = authors.map((ele, index) => {
+    authorData[ele.name] = ele.id;
+    return ele.name;
+  });
 
   const sortedTags = {};
   for (let i = 65; i <= 90; i++) {
@@ -88,11 +94,11 @@ const TabSelector = ({ tags, authors }) => {
               return (
                 <li className="px-6 py-1 " key={index}>
                   <ul className="">
-                    {sortedAuthors[ele].map((key, index) => {
+                    {sortedAuthors[ele].map((ele, index) => {
                       return (
-                        <Link href={`${key}`} key={index}>
+                        <Link href={`/author/quotes/${authorData[ele]}`} key={index}>
                           <li className="py-1 hover:font-semibold w-fit">
-                            {key}
+                            {ele}
                           </li>
                         </Link>
                       );
