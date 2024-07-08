@@ -1,6 +1,5 @@
 "use client";
 
-import { FaHeart } from "react-icons/fa";
 import { RiEdit2Fill } from "react-icons/ri";
 import { FaShare } from "react-icons/fa";
 import { toPng } from "html-to-image";
