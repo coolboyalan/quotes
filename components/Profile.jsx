@@ -12,52 +12,31 @@ const Profile = async () => {
     return redirect("/user");
   }
 
-  await db.user.update({
-    where: {
-      username: session.user.username,
-    },
-    data: {
-      likedQuotes: {
-        connect: {
-          id: 1,
-          id: 2,
-        },
-      },
-    },
-  });
-
   const likedQuotes = await db.user.findUnique({
     where: {
       username: session.user.username,
     },
     select: {
       likedQuotes: {
-        select: {
-          quote: true,
-          id:true,
-          author: {
-            select: {
-              name: true,
-            },
-          },
+        include: {
+          author: true,
         },
       },
     },
   });
 
-  if (!likedQuotes) {
+  if (!likedQuotes.likedQuotes) {
     return (
       <div className="md:px-20 pb-20 pt-10 justify-center md:justify-normal">
         No liked quotes found
       </div>
     );
   }
-
   const quotes = likedQuotes?.likedQuotes.map((ele) => {
     return {
       author: ele.author.name,
       quote: ele.quote,
-      id: ele.id
+      id: ele.id,
     };
   });
   return (

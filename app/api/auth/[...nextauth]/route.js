@@ -1,7 +1,7 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 import db from "@/db/db";
-import {compare} from "bcrypt"
+import { compare } from "bcrypt";
 
 const authOptions = {
   providers: [
@@ -17,10 +17,7 @@ const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if (
-          !credentials?.username ||
-          !credentials?.password
-        ) {
+        if (!credentials?.username || !credentials?.password) {
           return null;
         }
         let existingUser;
@@ -29,8 +26,8 @@ const authOptions = {
           existingUser = await db.user.findFirst({
             where: {
               username: credentials.username,
-            }
-          })
+            },
+          });
         } catch (err) {
           console.log(err);
           return true;
@@ -62,7 +59,7 @@ const authOptions = {
         return {
           ...token,
           username: user.username,
-          id: user.id,
+          id: parseInt(user.id),
         };
       }
       return token;
@@ -73,7 +70,7 @@ const authOptions = {
         user: {
           ...session.user,
           username: token.username,
-          id: token.id,
+          id: parseInt(token.id),
         },
       };
       return output;

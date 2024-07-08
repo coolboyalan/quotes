@@ -1,7 +1,7 @@
 import Quote from "@/components/Quote";
 import db from "@/db/db";
-import { name } from "faker/lib/locales/az";
-import id from "faker/lib/locales/id_ID";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export const metadata = {
   title: "Darkastic",
@@ -9,6 +9,28 @@ export const metadata = {
 };
 
 const Home = async () => {
+  let session = await getServerSession(authOptions);
+  let likedQuotes;
+
+  if (session) {
+    likedQuotes = await db.user.findUnique({
+      where: {
+        username: session.user.username,
+      },
+      select: {
+        likedQuotes: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+  }
+
+  if (likedQuotes) {
+    likedQuotes = likedQuotes?.likedQuotes.map((ele) => ele.id);
+  } 
+
   try {
     const quoteData = await db.quote.findMany({
       select: {
@@ -21,7 +43,7 @@ const Home = async () => {
         },
       },
     });
-    console.log(quoteData);
+
     if (!quoteData?.length) {
       return (
         <section className="bg-white px-4 text-black min-h-100vh">
@@ -41,7 +63,8 @@ const Home = async () => {
       <section className="bg-white px-4 text-black min-h-[80vh]">
         <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
           {quotes.map((ele, index) => {
-            return <Quote key={index} quote={ele} />;
+            const liked = likedQuotes?.includes(ele.id);
+            return <Quote key={index} quote={ele} liked={liked} />;
           })}
         </div>
       </section>

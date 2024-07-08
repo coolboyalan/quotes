@@ -4,8 +4,8 @@ import SavedQuote from "@/components/SavedQuote";
 import Quote from "./Quote";
 
 const Tabs = ({ likedQuotes, favorites }) => {
-  const [openTab, setOpenTab] = React.useState(1);
-  const [library, setLibrary] = React.useState(true);
+  const [openTab, setOpenTab] = React.useState(2);
+  const [library, setLibrary] = React.useState(false);
 
   return (
     <>
@@ -35,7 +35,7 @@ const Tabs = ({ likedQuotes, favorites }) => {
       </div>
       <div className="flex flex-wrap md:justify-normal justify-center">
         {(library ? favorites : likedQuotes)?.map((ele, index) => {
-          return <Quote key={index} quote={ele} />;
+          return <Quote key={index} quote={ele} liked={true} />;
         })}
       </div>
     </>
