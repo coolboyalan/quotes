@@ -1,9 +1,10 @@
 import { HeaderFilter, FilterButton } from "./HeaderFilter";
 import React from "react";
 import Link from "next/link";
+import db from "@/db/db";
 
 const Header = async () => {
-  let tags;
+  let tags, authors;
   try {
     tags = await fetch(
       `${process.env.URL}/wp-json/wp/v2/quoteTags?acf_format=standard`
@@ -11,9 +12,18 @@ const Header = async () => {
     if (tags.ok);
     tags = await tags.json();
     tags = tags.map((ele, index) => {
-      return ele.name
-    })
-    // tags = tags.sort()
+      return ele.name;
+    });
+    authors = await db.author.findMany({
+      select: {
+        name: true,
+      },
+    });
+
+    authors = authors.sort((a, b) => a.name.localeCompare(b.name));
+    authors = authors.map((ele, index) => {
+      return ele.name;
+    });
   } catch (err) {
     console.log(err);
   }
@@ -31,7 +41,7 @@ const Header = async () => {
         </div>
       </div>
       <div className=" bg-white py-[1px]">
-        <HeaderFilter tags={tags} />
+        <HeaderFilter tags={tags} authors={authors} />
       </div>
     </header>
   );
