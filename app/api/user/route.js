@@ -15,18 +15,27 @@ export async function POST(request) {
     if (existingUser) {
       return NextResponse.json(
         { name: "User already exists", status: false },
-        {status:409}
+        { status: 409 }
       );
+    }
+
+    const users = await db.user.findMany();
+
+    const data = {
+      username: body.username,
+      email: body.email,
+    };
+
+    if (users.length === 0) {
+      data.role = "admin";
     }
 
     const password = await hash(body.password, 10);
 
+    data.password = password;
+
     const user = await db.user.create({
-      data: {
-        username: body.username,
-        email: body.email,
-        password: password,
-      },
+      data,
     });
 
     return NextResponse.json(

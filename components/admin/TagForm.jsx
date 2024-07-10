@@ -12,7 +12,7 @@ export default function QuoteForm({ tagFormData, state }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    
+
     try {
       const res = await fetch("/api/admin/tag", {
         method: tagFormData.add ? "POST" : "PUT",
@@ -25,9 +25,8 @@ export default function QuoteForm({ tagFormData, state }) {
       });
 
       if (!res.ok) {
-        throw new Error(
-          quoteFormData.add ? "Failed to add quote" : "Failed to update quote"
-        );
+        const data = await res.json();
+        throw new Error(data.name);
       }
       setName("");
       state(false);

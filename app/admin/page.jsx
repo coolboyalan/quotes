@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import AddEntries from "@/components/admin/AddEntries";
 import TableRow from "@/components/admin/TableRow";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Darkastic",
@@ -13,6 +14,21 @@ const Home = async () => {
   let session = await getServerSession(authOptions);
 
   if (!session) {
+    redirect("/user");
+  }
+
+  const user = await db.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
+  if (!user) {
+    redirect("/user");
+  }
+
+  if (user.role !== "admin") {
+    redirect("/user");
   }
 
   const quotes = await db.quote.findMany({

@@ -1,7 +1,37 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
+import db from "@/db/db";
 
 export async function POST(request) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { name: "Unauthorized", status: false },
+        { status: 401 }
+      );
+    }
+
+    const user = await db.user.findUnique({
+      where: {
+        id: parseInt(session.user.id),
+      },
+    });
+    if (!user) {
+      return NextResponse.json(
+        { name: "User not found", status: false },
+        { status: 404 }
+      );
+    }
+
+    if (user.role !== "admin") {
+      return NextResponse.json(
+        { name: "Unauthorized", status: false },
+        { status: 401 }
+      );
+    }
+
     let body;
     try {
       body = await request?.json();
