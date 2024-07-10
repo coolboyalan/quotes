@@ -14,10 +14,13 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  if (!authors || !authors.length) {
+    setError("No authors found, Please add a new author first");
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    console.log(author);
     try {
       const res = await fetch("/api/admin/quote", {
         method: quoteFormData.add ? "POST" : "PUT",
@@ -155,6 +158,7 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
           <button
             type="submit"
             className="w-full px-4 py-2 font-bold text-white bg-gray-900 rounded hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700"
+            disabled={!authors?.length}
           >
             Submit
           </button>
