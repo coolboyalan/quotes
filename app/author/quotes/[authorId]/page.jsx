@@ -41,9 +41,9 @@ const QuotesByAuthor = async ({ params }) => {
     },
   });
 
-  if (!quotes) {
+  if (!quotes || !quotes.length) {
     return (
-      <div className="md:px-20 pb-20 pt-10 justify-center md:justify-normal">
+      <div className="md:px-20 pb-20 pt-10 justify-center md:justify-normal bg-white text-black">
         No quotes found
       </div>
     );

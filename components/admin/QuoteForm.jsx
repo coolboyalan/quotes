@@ -5,18 +5,17 @@ import { useRouter } from "next/navigation";
 import { RxCross1 } from "react-icons/rx";
 
 export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
+
+  const defaultError = (!authors || !authors.length) ? "NO authors found, Please a new author" : ""
   const [quote, setQuote] = useState(quoteFormData.quote);
   const [author, setAuthor] = useState(quoteFormData.author);
   const [tagNames, setTagNames] = useState(
     quoteFormData.tags.map((tag) => tag.name)
   );
   const [tagIds, setTagIds] = useState(quoteFormData.tags.map((tag) => tag.id));
-  const [error, setError] = useState("");
+  const [error, setError] = useState(defaultError);
   const router = useRouter();
 
-  if (!authors || !authors.length) {
-    setError("No authors found, Please add a new author first");
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
