@@ -27,7 +27,7 @@ const QuotesByAuthor = async ({ params }) => {
     likedQuotes = likedQuotes?.likedQuotes.map((ele) => ele.id);
   }
 
-  let tag = await db.tag.findUnique({
+  const tag = await db.tag.findUnique({
     where: {
       id: tagId,
     },
@@ -36,6 +36,7 @@ const QuotesByAuthor = async ({ params }) => {
         select: {
           quote: true,
           id: true,
+          author: true,
         },
       },
     },
@@ -51,15 +52,15 @@ const QuotesByAuthor = async ({ params }) => {
 
   const tagName = tag.name;
 
-  tag = tag.quotes.map((ele, index) => {
+  const quotes = tag.quotes.map((ele, index) => {
     return {
-      author: author,
+      author: ele.author,
       quote: ele.quote,
       id: ele.id,
     };
   });
 
-  if (!tag?.length) {
+  if (!quotes?.length) {
     return (
       <section className="bg-white px-4 md:px-20 py-10 text-black min-h-100vh">
         'No quotes found'
@@ -70,8 +71,13 @@ const QuotesByAuthor = async ({ params }) => {
   return (
     <section className="bg-white px-4 text-black min-h-[80vh]">
       <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
-        {tag.map((ele, index) => {
+        {quotes.map((ele, index) => {
           const liked = likedQuotes?.includes(ele.id);
+          ele = {
+            author: ele.author.name,
+            quote: ele.quote,
+            id: ele.id,
+          };
           return <Quote key={index} quote={ele} liked={liked} />;
         })}
       </div>

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import QuoteForm from "./QuoteForm";
 import AuthorForm from "./AuthorForm";
+import TagForm from "./TagForm";
 
 const AddEntries = ({ allTags, authors }) => {
   const [quoteForm, setQuoteForm] = useState(false);
@@ -32,6 +33,10 @@ const AddEntries = ({ allTags, authors }) => {
     add: true,
   };
 
+  const tagFormData = {
+    name: "",
+    add: true,
+  };
   return (
     <div className="flex justify-center pb-2">
       {quoteForm && (
@@ -58,7 +63,10 @@ const AddEntries = ({ allTags, authors }) => {
       >
         Add New Author
       </button>
-      <button className="bg-black text-white px-2 py-1 m-2 rounded overflow-hidden text-center hover:text-yellow-500">
+      <button
+        className="bg-black text-white px-2 py-1 m-2 rounded overflow-hidden text-center hover:text-yellow-500"
+        onClick={toggleTagForm}
+      >
         Add New Tag
       </button>
     </div>

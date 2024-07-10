@@ -6,7 +6,7 @@ import { RxCross1 } from "react-icons/rx";
 
 export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
   const [quote, setQuote] = useState(quoteFormData.quote);
-  const [author, setAuthor] = useState(quoteFormData.author);
+  const [author, setAuthor] = useState(quoteFormData.authorId);
   const [tagNames, setTagNames] = useState(
     quoteFormData.tags.map((tag) => tag.name)
   );
@@ -107,11 +107,12 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
             className="block w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             onChange={(e) => {
               setAuthor(e.target.value);
+              console.log(author);
             }}
             required
           >
             {authors.map((ele, index) => (
-              <option key={index} value={ele.id}>
+              <option key={index} value={ele.id} selected={author === ele.id}>
                 {ele.name}
               </option>
             ))}

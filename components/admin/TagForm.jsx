@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { RxCross1 } from "react-icons/rx";
 
-export default function QuoteForm({ authorFormData, state }) {
-  const [name, setName] = useState(authorFormData.name);
+export default function QuoteForm({ tagFormData, state }) {
+  const [name, setName] = useState(tagFormData.name);
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -14,8 +14,8 @@ export default function QuoteForm({ authorFormData, state }) {
     setError("");
     
     try {
-      const res = await fetch("/api/admin/author", {
-        method: authorFormData.add ? "POST" : "PUT",
+      const res = await fetch("/api/admin/tag", {
+        method: tagFormData.add ? "POST" : "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -49,7 +49,7 @@ export default function QuoteForm({ authorFormData, state }) {
             onClick={() => state(false)}
           />
           <h1 className="text-2xl font-bold text-center text-gray-900">
-            Add an author
+            Add a Tag
           </h1>
 
           {error && (
@@ -63,7 +63,7 @@ export default function QuoteForm({ authorFormData, state }) {
               htmlFor="name"
               className="block text-sm font-medium text-gray-700"
             >
-              Author
+              Tag
             </label>
             <input
               type="text"

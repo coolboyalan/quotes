@@ -32,6 +32,7 @@ const TableRow = ({ quote, authors, allTags }) => {
   const quoteFormData = {
     quote: quote.quote,
     author: quote.author.name,
+    authorId: quote.author.id,
     tags: quote.tags.flat(),
     id: quoteId,
   };

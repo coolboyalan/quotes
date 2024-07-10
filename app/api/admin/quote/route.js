@@ -79,7 +79,7 @@ export async function PUT(request) {
 
     const data = {
       quote: body.quote,
-      authorId,
+      authorId:body.author,
     };
 
     if (tags) {
