@@ -4,7 +4,7 @@ import React from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const UserForm = () => {
+const UserForm = ({address}) => {
   const router = useRouter();
   const [login, setLogin] = React.useState(true);
   const [username, setUsername] = React.useState("");
@@ -39,7 +39,7 @@ const UserForm = () => {
       email,
     };
 
-    const url = "http://localhost:3000/api/user";
+    const url = "/api/user";
 
     fetch(url, {
       method: "POST",

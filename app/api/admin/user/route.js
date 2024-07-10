@@ -41,31 +41,3 @@ export async function POST(request) {
     );
   }
 }
-
-export async function GET(request) {
-  try {
-    await db.user.deleteMany();
-    await db.quote.deleteMany();
-    await db.tag.deleteMany();
-    await db.author.deleteMany();
-    const users = await db.user.findMany();
-    const quotes = await db.quote.findMany();
-    const tags = await db.tag.findMany();
-    const authors = await db.author.findMany();
-
-    const response = {
-      users,
-      quotes,
-      tags,
-      authors,
-    };
-
-    return NextResponse.json(response, { status: 200 });
-  } catch (err) {
-    console.log(err.message);
-    return NextResponse.json(
-      { name: "Internal Server Error", status: false },
-      { status: 500 }
-    );
-  }
-}

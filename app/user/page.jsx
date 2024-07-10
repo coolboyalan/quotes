@@ -9,14 +9,20 @@ const Account = async () => {
   if (!session) {
     return (
       <>
-        <UserForm />
+        <UserForm
+          address={
+            process.env.NODE_ENV === "production"
+              ? "https://quotes.alanwebserver.online"
+              : "http://localhost:3000"
+          }
+        />
       </>
     );
   }
 
   return (
     <section className="bg-white px-4 text-black">
-        <Profile />
+      <Profile />
     </section>
   );
 };
