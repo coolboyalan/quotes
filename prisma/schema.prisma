@@ -13,11 +13,17 @@ datasource db {
   url      = env("DB_URL")
 }
 
+enum Role {
+  admin
+  regular
+}
+
 model User {
   id          Int     @id @default(autoincrement())
   username    String  @unique
   email       String  @unique
   password    String
+  role      Role      @default(regular)
   likedQuotes Quote[]
 
   @@map("users")
@@ -31,12 +37,19 @@ model Author {
   @@map("authors")
 }
 
+model Tag {
+  id     Int      @id @default(autoincrement())
+  name   String   @unique
+  quotes Quote[]  @relation("TagQuotes")
+}
+
 model Quote {
   id       Int    @id @default(autoincrement())
   quote    String
   author   Author @relation(fields: [authorId], references: [id])
   authorId Int
   User     User[]
+  tags   Tag[]    @relation("TagQuotes")
 
   @@map("quotes")
 }

@@ -25,7 +25,7 @@ const Profile = async () => {
     },
   });
 
-  if (!likedQuotes.likedQuotes) {
+  if (!likedQuotes?.likedQuotes) {
     return (
       <div className="md:px-20 pb-20 pt-10 justify-center md:justify-normal">
         No liked quotes found

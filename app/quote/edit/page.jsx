@@ -26,7 +26,7 @@ const QuoteEditPage = async ({ searchParams }) => {
       },
     },
   });
-  
+
   if (quoteData) {
     const quote = {
       author: quoteData.author.name,

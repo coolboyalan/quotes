@@ -58,3 +58,75 @@ export async function POST(request) {
     );
   }
 }
+
+// const { PrismaClient } = require("@prisma/client");
+// const prisma = new PrismaClient();
+
+// const createData = async () => {
+//   try {
+//     // Insert a User
+//     const user = await prisma.user.create({
+//       data: {
+//         username: "example_username",
+//         email: "example@example.com",
+//         password: "example_password",
+//         role: "regular",
+//         likedQuotes: {
+//           connect: [
+//             { id: 1 }, // Replace with the ID of the quote you want to connect
+//             { id: 2 }, // Replace with the ID of another quote you want to connect
+//           ],
+//         },
+//       },
+//     });
+
+//     // Insert an Author
+//     const author = await prisma.author.create({
+//       data: {
+//         name: "Example Author",
+//         quotes: {
+//           connect: [
+//             { id: 1 }, // Replace with the ID of the quote you want to connect
+//             { id: 2 }, // Replace with the ID of another quote you want to connect
+//           ],
+//         },
+//       },
+//     });
+
+//     // Insert a Tag
+//     const tag = await prisma.tag.create({
+//       data: {
+//         name: "Example Tag",
+//         quotes: {
+//           connect: [
+//             { id: 1 }, // Replace with the ID of the quote you want to connect
+//           ],
+//         },
+//       },
+//     });
+
+//     // Insert a Quote with a new Tag
+//     const createdTag = await prisma.tag.create({
+//       data: {
+//         name: "New Tag Name",
+//       },
+//     });
+
+//     const quote = await prisma.quote.create({
+//       data: {
+//         text: "Example quote text",
+//         tags: {
+//           connect: { id: createdTag.id },
+//         },
+//       },
+//     });
+
+//     console.log("Data created successfully");
+//   } catch (error) {
+//     console.error("Error creating data:", error);
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+// };
+
+// createData();

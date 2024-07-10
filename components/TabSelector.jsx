@@ -5,11 +5,16 @@ import Link from "next/link";
 const TabSelector = ({ tags, authors }) => {
   const [tab, setTab] = React.useState(true);
   const authorData = {};
+  const tagData = {};
 
   authors = authors.map((ele, index) => {
     authorData[ele.name] = ele.id;
     return ele.name;
   });
+
+  tags.map((ele, index) => {
+    tagData[ele.name] = ele.id;
+  })
 
   const sortedTags = {};
   for (let i = 65; i <= 90; i++) {
@@ -17,15 +22,15 @@ const TabSelector = ({ tags, authors }) => {
   }
 
   tags?.forEach((ele, index) => {
-    const tag = ele.slice(0, 1);
-    sortedTags[tag].push(ele);
+    const tag = ele.name.slice(0, 1);
+    sortedTags[tag].push(ele.name);
   });
 
   const sortedAuthors = {};
   for (let i = 65; i <= 90; i++) {
     sortedAuthors[String.fromCharCode(i)] = [];
   }
-
+  
   authors?.forEach((ele, index) => {
     const author = ele.slice(0, 1).toUpperCase();
     sortedAuthors[author].push(ele);
@@ -70,7 +75,10 @@ const TabSelector = ({ tags, authors }) => {
                   <ul className="">
                     {sortedTags[ele].map((key, index) => {
                       return (
-                        <Link href={`${key}`} key={index}>
+                        <Link
+                          href={`/tags/quotes/${tagData[key]}`}
+                          key={index}
+                        >
                           <li className="py-1 hover:font-semibold w-fit">
                             {key}
                           </li>

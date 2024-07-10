@@ -6,23 +6,23 @@ import db from "@/db/db";
 const Header = async () => {
   let tags, authors;
   try {
-    tags = await fetch(
-      `${process.env.URL}/wp-json/wp/v2/quoteTags?acf_format=standard`
-    );
-    if (tags.ok);
-    tags = await tags.json();
-    tags = tags.map((ele, index) => {
-      return ele.name;
+    tags = await db.tag.findMany({
+      select: {
+        name: true,
+        id: true,
+      },
     });
+
+    tags = tags.sort((a, b) => a.name.localeCompare(b.name));
+
     authors = await db.author.findMany({
       select: {
         name: true,
-        id:true
+        id: true,
       },
     });
 
     authors = authors.sort((a, b) => a.name.localeCompare(b.name));
-
   } catch (err) {
     console.log(err);
   }
