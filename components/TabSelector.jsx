@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 
-const TabSelector = ({ tags, authors }) => {
+const TabSelector = ({ tags, authors, handleFilter }) => {
   const [tab, setTab] = React.useState(true);
   const authorData = {};
   const tagData = {};
@@ -14,7 +14,7 @@ const TabSelector = ({ tags, authors }) => {
 
   tags.map((ele, index) => {
     tagData[ele.name] = ele.id;
-  })
+  });
 
   const sortedTags = {};
   for (let i = 65; i <= 90; i++) {
@@ -30,7 +30,7 @@ const TabSelector = ({ tags, authors }) => {
   for (let i = 65; i <= 90; i++) {
     sortedAuthors[String.fromCharCode(i)] = [];
   }
-  
+
   authors?.forEach((ele, index) => {
     const author = ele.slice(0, 1).toUpperCase();
     sortedAuthors[author].push(ele);
@@ -75,11 +75,11 @@ const TabSelector = ({ tags, authors }) => {
                   <ul className="">
                     {sortedTags[ele].map((key, index) => {
                       return (
-                        <Link
-                          href={`/tags/quotes/${tagData[key]}`}
-                          key={index}
-                        >
-                          <li className="py-1 hover:font-semibold w-fit">
+                        <Link href={`/tags/quotes/${tagData[key]}`} key={index}>
+                          <li
+                            className="py-1 hover:font-semibold w-fit"
+                            onClick={() => handleFilter()}
+                          >
                             {key}
                           </li>
                         </Link>
@@ -104,8 +104,14 @@ const TabSelector = ({ tags, authors }) => {
                   <ul className="">
                     {sortedAuthors[ele].map((ele, index) => {
                       return (
-                        <Link href={`/author/quotes/${authorData[ele]}`} key={index}>
-                          <li className="py-1 hover:font-semibold w-fit">
+                        <Link
+                          href={`/author/quotes/${authorData[ele]}`}
+                          key={index}
+                        >
+                          <li
+                            className="py-1 hover:font-semibold w-fit"
+                            onClick={() => handleFilter()}
+                          >
                             {ele}
                           </li>
                         </Link>

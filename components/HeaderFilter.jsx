@@ -7,14 +7,18 @@ import TabSelector from "./TabSelector";
 
 let filter, setFilter;
 
-const HeaderFilter = ({tags,authors}) => {
+const HeaderFilter = ({ tags, authors }) => {
   [filter, setFilter] = React.useState(false);
+
+  const handleFilter = () => {
+    setFilter(!filter);
+  };
 
   if (filter) {
     return (
       <>
         <SearchBar />
-        <TabSelector tags={tags} authors={authors} />
+        <TabSelector tags={tags} authors={authors} handleFilter={handleFilter} />
       </>
     );
   } else return null;

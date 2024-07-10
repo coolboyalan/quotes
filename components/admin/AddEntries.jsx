@@ -23,7 +23,7 @@ const AddEntries = ({ allTags, authors }) => {
 
   const quoteFormData = {
     quote: "",
-    author: authors[0].id,
+    author: authors[0]?.name,
     tags: [],
     add: true,
   };
