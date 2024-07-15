@@ -2,7 +2,6 @@ import QuoteEditor from "@/components/Editor";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import Profile from "@/components/Profile";
 import db from "@/db/db";
 
 const QuoteEditPage = async ({ searchParams }) => {
@@ -37,7 +36,6 @@ const QuoteEditPage = async ({ searchParams }) => {
         <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
           <QuoteEditor quote={quote} />;
         </div>
-        <Profile />
       </section>
     );
   } else {

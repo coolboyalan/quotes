@@ -210,8 +210,8 @@ const QuoteEditor = ({ quote }) => {
           </div>
         </div>
       </div>
-      <div className=" mx-4 my-4 md:my-0 h-[380px] w-[200px] text-black flex flex-col justify-between">
-        <div className="bg-slate-100 h-full w-full flex flex-col rounded shadow-xl">
+      <div className="md:h-[380px] md:w-[240px]  w-[280px] rounded flex flex-col justify-between md:mx-8 md:my-0 my-8">
+        <div className="bg-slate-100 h-full w-full flex flex-col rounded ">
           <select
             name="font"
             id="font"
@@ -258,7 +258,7 @@ const QuoteEditor = ({ quote }) => {
             </div>
           </div>
         </div>
-        <div className="bg-slate-100 h-full w-full flex flex-col rounded shadow-xl">
+        <div className="bg-slate-100 h-full w-full flex flex-col rounded ">
           <input
             type="color"
             value={quoteColor}
@@ -280,7 +280,7 @@ const QuoteEditor = ({ quote }) => {
             }}
           />
         </div>
-        <div className="bg-slate-100 h-full w-full flex flex-col rounded shadow-xl">
+        <div className="bg-slate-100 h-full w-full flex flex-col rounded ">
           <select
             name="font"
             id="font"

@@ -42,10 +42,8 @@ const Quote = ({ quote, liked }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          console.log(data);
+        if (data.status === false) {
+          router.replace('/user')
         }
         router.refresh();
       })
