@@ -56,7 +56,6 @@ export async function POST(request) {
       if (!tag) return false;
       return !existingTagsArray.includes(tag);
     });
-
     try {
       if (allTags.length > 0) {
         await db.tag.createMany({
@@ -125,7 +124,9 @@ export async function POST(request) {
     const quotesWithTags = [];
 
     let quotes = body.map((ele, index) => {
-      let tags = new Set(ele[2].split(","));
+      if (!ele[2] || !ele[1]) return;
+
+      let tags = new Set(ele[2]?.split(","));
       tags = [...tags].map((tag) => tag.trim());
 
       const temp = {
@@ -145,6 +146,8 @@ export async function POST(request) {
 
       return quote;
     });
+
+    quotes = quotes.filter((ele) => ele);
 
     for (let i = 0; i < quotes.length; i++) {
       const quote = quotes[i];
