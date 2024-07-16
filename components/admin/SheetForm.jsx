@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { RxCross1 } from "react-icons/rx";
+import Papa from "papaparse";
 
 export default function QuoteForm({ tagFormData, state }) {
-  const [name, setName] = useState(tagFormData.name);
+  const [sheet, setSheet] = useState(null);
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -14,21 +15,19 @@ export default function QuoteForm({ tagFormData, state }) {
     setError("");
 
     try {
-      const res = await fetch("/api/admin/tag", {
-        method: tagFormData.add ? "POST" : "PUT",
+      const res = await fetch("/api/admin/bulk", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          name,
-        }),
+        body: JSON.stringify(sheet),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.name);
+        throw new Error(data.sheet);
       }
-      setName("");
+      setSheet("");
       state(false);
       router.refresh("/admin");
     } catch (error) {
@@ -48,7 +47,7 @@ export default function QuoteForm({ tagFormData, state }) {
             onClick={() => state(false)}
           />
           <h1 className="text-2xl font-bold text-center text-gray-900">
-            Add a Tag
+            Import Sheet
           </h1>
 
           {error && (
@@ -59,16 +58,22 @@ export default function QuoteForm({ tagFormData, state }) {
 
           <div>
             <label
-              htmlFor="name"
+              htmlFor="sheet"
               className="block text-sm font-medium text-gray-700"
             >
-              Tag
+              Sheet
             </label>
             <input
-              type="text"
-              id="name"
-              value={name || ""}
-              onChange={(e) => setName(e.target.value)}
+              type="file"
+              id="sheet"
+              accept=".csv,.xlsx,.xls"
+              onChange={(e) => {
+                Papa.parse(e.target.files[0], {
+                  complete: function (results) {
+                    setSheet(results.data);
+                  },
+                });
+              }}
               required
               className="block w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             />

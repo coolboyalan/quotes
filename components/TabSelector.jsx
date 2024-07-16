@@ -23,6 +23,8 @@ const TabSelector = ({ tags, authors, handleFilter }) => {
 
   tags?.forEach((ele, index) => {
     const tag = ele.name.slice(0, 1);
+    ele.name = tag.toUpperCase() + ele.name.slice(1);
+    sortedTags[tag] = sortedTags[tag] || [];
     sortedTags[tag].push(ele.name);
   });
 

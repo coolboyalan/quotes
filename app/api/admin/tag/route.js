@@ -49,6 +49,10 @@ export async function POST(request) {
       );
     }
 
+    body.name = body.name.trim();
+    body.name =
+      body.name.slice(0, 1).toUpperCase() + body.name.slice(1).toLowerCase();
+
     const existingTag = await db.tag.findFirst({
       where: {
         name: body.name,

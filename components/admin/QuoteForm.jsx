@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { RxCross1 } from "react-icons/rx";
 
 export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
-
-  const defaultError = (!authors || !authors.length) ? "NO authors found, Please a new author" : ""
+  const defaultError =
+    !authors || !authors.length ? "NO authors found, Please a new author" : "";
   const [quote, setQuote] = useState(quoteFormData.quote);
   const [author, setAuthor] = useState(quoteFormData.author);
   const [tagNames, setTagNames] = useState(
@@ -15,7 +15,6 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
   const [tagIds, setTagIds] = useState(quoteFormData.tags.map((tag) => tag.id));
   const [error, setError] = useState(defaultError);
   const router = useRouter();
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,7 +59,7 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
+    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-20 z-10 ">
       <div className="flex items-center justify-center rounded relative">
         <form
           onSubmit={handleSubmit}
@@ -108,7 +107,6 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
             id="author"
             className="block w-full px-4 py-2 mt-1 text-gray-900 bg-gray-100 border border-gray-300 rounded focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
             onChange={(e) => {
-              console.log(author);
               setAuthor(e.target.value);
             }}
             required
@@ -131,27 +129,29 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
             >
               Tags
             </label>
-            {allTags.map((ele, index) => {
-              return (
-                <div className="flex items-center" key={index}>
-                  <input
-                    type="checkbox"
-                    name="tag"
-                    key={index}
-                    value={ele.id}
-                    placeholder={ele.name}
-                    checked={tagNames.includes(ele.name)}
-                    onChange={() => handleTagChange(ele)}
-                  ></input>
-                  <label
-                    htmlFor="tag"
-                    className="block text-sm font-medium text-gray-700 px-2"
-                  >
-                    {ele.name}
-                  </label>
-                </div>
-              );
-            })}
+            <div className="overflow-y-scroll max-h-[15vh]">
+              {allTags.map((ele, index) => {
+                return (
+                  <div className="flex items-center" key={index}>
+                    <input
+                      type="checkbox"
+                      name="tag"
+                      key={index}
+                      value={ele.id}
+                      placeholder={ele.name}
+                      checked={tagNames.includes(ele.name)}
+                      onChange={() => handleTagChange(ele)}
+                    ></input>
+                    <label
+                      htmlFor="tag"
+                      className="block text-sm font-medium text-gray-700 px-2"
+                    >
+                      {ele.name}
+                    </label>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <button

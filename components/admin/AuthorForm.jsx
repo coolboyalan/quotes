@@ -38,7 +38,7 @@ export default function QuoteForm({ authorFormData, state }) {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-20 z-10">
+    <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-20 z-10 ">
       <div className="flex items-center justify-center rounded relative">
         <form
           onSubmit={handleSubmit}
