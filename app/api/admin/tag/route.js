@@ -84,3 +84,53 @@ export async function POST(request) {
     );
   }
 }
+
+export async function DELETE(request) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return NextResponse.json(
+      { name: "Unauthorized", status: false },
+      { status: 401 }
+    );
+  }
+
+  const user = await db.user.findUnique({
+    where: {
+      id: parseInt(session.user.id),
+    },
+  });
+  if (!user) {
+    return NextResponse.json(
+      { name: "User not found", status: false },
+      { status: 404 }
+    );
+  }
+
+  if (user.role !== "admin") {
+    return NextResponse.json(
+      { name: "Unauthorized", status: false },
+      { status: 401 }
+    );
+  }
+
+  try {
+    const body = await request.json();
+    const id = parseInt(body.id);
+    const tag = await db.tag.delete({
+      where: {
+        id: id,
+      },
+    });
+    console.log(tag)
+    return NextResponse.json(
+      { name: "Tag deleted successfully", status: true },
+      { status: 200 }
+    );
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json(
+      { name: "Something went wrong", status: false },
+      { status: 500 }
+    );
+  }
+}

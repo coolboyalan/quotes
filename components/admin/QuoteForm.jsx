@@ -58,6 +58,22 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
     }
   };
 
+  const deleteTagWithId = (id) => {
+    event.preventDefault();
+    console.log(id);
+    
+    fetch(`/api/admin/tag`, {
+      method: "DELETE",
+      body: JSON.stringify({ id }),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      } else {
+        router.refresh("/admin");
+      }
+    });
+  };
+
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-black bg-opacity-20 z-10 ">
       <div className="flex items-center justify-center rounded relative">
@@ -144,10 +160,16 @@ export default function QuoteForm({ quoteFormData, state, authors, allTags }) {
                     ></input>
                     <label
                       htmlFor="tag"
-                      className="block text-sm font-medium text-gray-700 px-2"
+                      className="block text-sm font-medium text-gray-700 px-2 py-1"
                     >
                       {ele.name}
                     </label>
+                    <button
+                      className="px-2  bg-red-500 text-white rounded ml-auto"
+                      onClick={() => deleteTagWithId(ele.id)}
+                    >
+                      Delete Tag
+                    </button>
                   </div>
                 );
               })}
