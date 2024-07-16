@@ -52,11 +52,16 @@ export async function POST(request) {
     const existingTags = await db.tag.findMany();
     const existingTagsArray = existingTags.map((tag) => tag.name);
 
-    const allTags = newtags.filter((tag) => {
+    let allTags = newtags.filter((tag) => {
       if (!tag) return false;
       return !existingTagsArray.includes(tag);
     });
     try {
+      allTags = allTags.map((tag) => {
+        const temp = tag.slice(0, 1).toUpperCase() + tag.slice(1);
+        return temp.trim();
+      });
+
       if (allTags.length > 0) {
         await db.tag.createMany({
           data: allTags.map((tag) => ({ name: tag })),
@@ -95,7 +100,7 @@ export async function POST(request) {
         });
       }
     } catch (err) {
-      await db.author.delteMany({
+      await db.author.deleteMany({
         where: {
           name: {
             in: allAuthors,
