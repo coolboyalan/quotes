@@ -56,7 +56,7 @@ const Home = async () => {
 
   try {
     return (
-      <section className="bg-white px-4 text-black min-h-[80vh]">
+      <section className="bg-white px-4 text-black min-h-[80vh]" id="content">
         <div className="md:px-20 pb-20 pt-10 justify-center md:justify-normal">
           <AddEntries allTags={allTags} authors={authors} />
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg border-black">

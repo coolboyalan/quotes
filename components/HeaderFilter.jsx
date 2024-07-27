@@ -15,13 +15,17 @@ const HeaderFilter = ({ tags, authors }) => {
   };
 
   if (filter) {
+    document.getElementById("content").classList.add("hidden");
     return (
       <>
         <SearchBar />
         <TabSelector tags={tags} authors={authors} handleFilter={handleFilter} />
       </>
     );
-  } else return null;
+  } else {
+    document.getElementById("content").classList.remove("hidden");
+    return null;
+  }
 };
 
 const FilterButton = () => {

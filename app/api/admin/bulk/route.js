@@ -48,127 +48,99 @@ export async function POST(request) {
       );
     }
 
-    const newtags = [...new Set(body.flatMap((ele) => ele[2]?.split(",")))];
-    const existingTags = await db.tag.findMany();
-    const existingTagsArray = existingTags.map((tag) => tag.name);
-
-    let allTags = newtags.filter((tag) => {
-      if (!tag) return false;
-      return !existingTagsArray.includes(tag);
+    let newTags = body.map((data) => {
+      return data[2]?.split(",");
     });
-    try {
-      allTags = allTags.map((tag) => {
-        const temp = tag.slice(0, 1).toUpperCase() + tag.slice(1);
-        return temp.trim();
-      });
 
-      if (allTags.length > 0) {
-        await db.tag.createMany({
-          data: allTags.map((tag) => ({ name: tag })),
-        });
-      }
-    } catch (err) {
-      await db.tag.delteMany({
-        where: {
-          name: {
-            in: allTags,
-          },
-        },
+    newTags = newTags.flat();
+    newTags = newTags.filter((tag) => {
+      return tag;
+    });
+
+    let newAuthors = body.map((data) => {
+      return data[1];
+    });
+
+    newAuthors = newAuthors.filter((author) => {
+      return author;
+    });
+
+    const existingTags = await db.tag.findMany({});
+    const existingAuthors = await db.author.findMany({});
+
+    newTags = newTags.filter((tag) => {
+      return !existingTags?.some((t) => t?.name === tag);
+    });
+
+    newAuthors = newAuthors.filter((author) => {
+      return !existingAuthors?.some((a) => a?.name === author);
+    });
+
+    newTags = Array.from(new Set(newTags));
+    newAuthors = Array.from(new Set(newAuthors));
+
+    if (newTags.length) {
+      const createdTags = await db.tag.createMany({
+        data: newTags.map((tag) => {
+          return {
+            name: tag,
+          };
+        }),
       });
-      return NextResponse.json(
-        {
-          name: "Something went wrong",
-          status: false,
-        },
-        400
-      );
     }
 
-    const newAuthor = [...new Set(body.map((ele) => ele[1]))];
-    const existingAuthors = await db.author.findMany();
-    const existingAuthorsArray = existingAuthors.map((author) => author.name);
-
-    const allAuthors = newAuthor.filter((author) => {
-      if (!author) return false;
-      return !existingAuthorsArray.includes(author);
-    });
-
-    try {
-      if (allAuthors.length > 0) {
-        await db.author.createMany({
-          data: allAuthors.map((author) => ({ name: author })),
-        });
-      }
-    } catch (err) {
-      await db.author.deleteMany({
-        where: {
-          name: {
-            in: allAuthors,
-          },
-        },
+    if (newAuthors.length) {
+      const createdAuthors = await db.author.createMany({
+        data: newAuthors.map((author) => {
+          return {
+            name: author,
+          };
+        }),
       });
-      return NextResponse.json(
-        {
-          name: "Something went wrong",
-          status: false,
-        },
-        400
-      );
     }
 
-    const tagMap = existingTags.reduce((acc, tag) => {
-      acc[tag.name] = tag.id;
-      return acc;
-    }, {});
+    const latestTags = await db.tag.findMany({});
+    const latestAuthors = await db.author.findMany({});
 
-    const authorMap = existingAuthors.reduce((acc, author) => {
-      acc[author.name] = author.id;
-      return acc;
-    }, {});
+    const quoteData = [];
+    const tagData = {};
 
-    const quotesWithTags = [];
+    body.forEach((data, index) => {
+      if (!data[0] || !data[1]) {
+        return;
+      }
 
-    let quotes = body.map((ele, index) => {
-      if (!ele[2] || !ele[1]) return;
+      quoteData.push({
+        quote: data[0],
+        authorId: latestAuthors.find((author) => author.name === data[1])?.id,
+      });
 
-      let tags = new Set(ele[2]?.split(","));
-      tags = [...tags].map((tag) => tag.trim());
+      if (!data[2]) return;
 
-      const temp = {
-        quote: ele[0],
-        authorId: authorMap[ele[1]],
-        tags: {
-          connect: tags.map((tag) => ({ id: tagMap[tag] })),
-        },
-      };
+      const tags = data[2].split(",");
 
-      quotesWithTags.push(temp);
-
-      const quote = {
-        quote: ele[0],
-        authorId: authorMap[ele[1]],
-      };
-
-      return quote;
+      tagData[index] = latestTags.filter((tag) => {
+        return tags.includes(tag?.name);
+      });
     });
 
-    quotes = quotes.filter((ele) => ele);
-
-    for (let i = 0; i < quotes.length; i++) {
-      const quote = quotes[i];
-
-      const output = await db.quote.create({
-        data: quote,
+    for (let i = 0; i < quoteData.length; i++) {
+      const createdQuote = await db.quote.create({
+        data: quoteData[i],
       });
 
-      await db.quote.update({
-        where: {
-          id: output.id,
-        },
-        data: {
-          tags: quotesWithTags[i].tags,
-        },
-      });
+      if (tagData[i]) {
+        await db.quote.update({
+          where: {
+            id: createdQuote.id,
+          },
+          data: {
+            tags: {
+              connect: tagData[i].map((tag) => ({ id: tag.id })),
+            },
+          },
+        });
+      }
     }
 
     return NextResponse.json(
