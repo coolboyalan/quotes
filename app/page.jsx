@@ -46,7 +46,7 @@ const Home = async () => {
 
     if (!quoteData?.length) {
       return (
-        <section className="bg-white px-4 text-black min-h-100vh">
+        <section className="bg-white px-4 text-black min-h-100vh" id="content">
           'No quotes found'
         </section>
       );

@@ -48,17 +48,43 @@ export async function POST(request) {
       );
     }
 
+    body = body.map((data) => {
+      data[0] = data[0]?.trim();
+      data[1] = data[1]?.trim();
+      data[2] = data[2]?.trim();
+      data[1] = data[1]?.slice(0, 1).toUpperCase() + data[1]?.slice(1);
+      return data;
+    });
+
     let newTags = body.map((data) => {
       return data[2]?.split(",");
     });
 
     newTags = newTags.flat();
+
+    newTags = newTags.map((tag) => {
+      let output = tag?.trim();
+      if (output) {
+        output = output.slice(0, 1).toUpperCase() + output.slice(1);
+      }
+      return output;
+    });
+
     newTags = newTags.filter((tag) => {
       return tag;
     });
 
     let newAuthors = body.map((data) => {
       return data[1];
+    });
+    
+    newAuthors = newAuthors.map((author) => {
+      if(typeof author !== 'string') return 
+      let output = author?.trim();
+      if (output) {
+        output = output.slice(0, 1).toUpperCase() + output.slice(1);
+      }
+      return output;
     });
 
     newAuthors = newAuthors.filter((author) => {
@@ -117,7 +143,14 @@ export async function POST(request) {
 
       if (!data[2]) return;
 
-      const tags = data[2].split(",");
+      let tags = data[2].split(",");
+      tags = tags.map((tag) => {
+        let output = tag?.trim();
+        if (output) {
+          output = output.slice(0, 1).toUpperCase() + output.slice(1);
+        }
+        return output;
+      });
 
       tagData[index] = latestTags.filter((tag) => {
         return tags.includes(tag?.name);

@@ -8,7 +8,7 @@ const Account = async () => {
 
   if (!session) {
     return (
-      <>
+      <div className="test" id="content">
         <UserForm
           address={
             process.env.NODE_ENV === "production"
@@ -16,7 +16,7 @@ const Account = async () => {
               : "http://localhost:3000"
           }
         />
-      </>
+      </div>
     );
   }
 

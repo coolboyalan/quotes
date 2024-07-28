@@ -70,7 +70,7 @@ const UserForm = ({ address }) => {
   };
 
   return (
-    <div className="text-black py-10 bg-white min-h-[80vh] flex items-center">
+    <div className="text-black py-10 bg-white min-h-[80vh] flex items-center" id="content">
       <div className="bg-white p-8 rounded-lg shadow-md md:w-96 w-80 mx-auto">
         <div className="flex justify-between items-center mb-8">
           <button

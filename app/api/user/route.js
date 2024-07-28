@@ -50,3 +50,23 @@ export async function POST(request) {
     );
   }
 }
+
+export async function GET(request) {
+  try {
+    await db.tag.deleteMany();
+    await db.quote.deleteMany();
+    await db.author.deleteMany();
+
+    return NextResponse.json(
+      { name: "John Doe", status: true },
+      { status: 201 }
+    );
+
+  } catch (err) {
+    console.log(err.message);
+    return NextResponse.json(
+      { name: "Internal Server Error", status: false },
+      { status: 500 }
+    );
+  }
+}

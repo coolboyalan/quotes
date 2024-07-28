@@ -62,7 +62,7 @@ const QuotesByAuthor = async ({ params }) => {
 
   if (!quotes?.length) {
     return (
-      <section className="bg-white px-4 md:px-20 py-10 text-black min-h-100vh">
+      <section className="bg-white px-4 md:px-20 py-10 text-black min-h-100vh" id="content">
         'No quotes found'
       </section>
     );

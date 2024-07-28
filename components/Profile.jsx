@@ -3,7 +3,6 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import TabsRender from "./Tabs";
 import db from "@/db/db";
-import id from "faker/lib/locales/id_ID";
 
 const Profile = async () => {
   const session = await getServerSession(authOptions);
