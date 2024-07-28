@@ -15,15 +15,23 @@ const HeaderFilter = ({ tags, authors }) => {
   };
 
   if (filter) {
-    document.getElementById("content").classList.add("hidden");
+    React.useEffect(() => {
+      document.getElementById("content").classList.add("hidden");
+    }, [filter]);
     return (
       <>
         <SearchBar />
-        <TabSelector tags={tags} authors={authors} handleFilter={handleFilter} />
+        <TabSelector
+          tags={tags}
+          authors={authors}
+          handleFilter={handleFilter}
+        />
       </>
     );
   } else {
-    document.getElementById("content").classList.remove("hidden");
+    React.useEffect(() => {
+      document.getElementById("content").classList.remove("hidden");
+    }, [filter]);
     return null;
   }
 };

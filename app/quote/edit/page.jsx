@@ -32,7 +32,7 @@ const QuoteEditPage = async ({ searchParams }) => {
       quote: quoteData.quote,
     };
     return (
-      <section className="bg-white px-4 text-black min-h-[80vh]">
+      <section className="bg-white px-4 text-black min-h-[80vh]" id="content">
         <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
           <QuoteEditor quote={quote} />;
         </div>

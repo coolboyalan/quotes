@@ -69,7 +69,7 @@ const QuotesByAuthor = async ({ params }) => {
   }
 
   return (
-    <section className="bg-white px-4 text-black min-h-[80vh]">
+    <section className="bg-white px-4 text-black min-h-[80vh]" id="content">
       <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
         {quotes.map((ele, index) => {
           const liked = likedQuotes?.includes(ele.id);

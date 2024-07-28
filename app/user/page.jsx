@@ -21,7 +21,7 @@ const Account = async () => {
   }
 
   return (
-    <section className="bg-white px-4 text-black">
+    <section className="bg-white px-4 text-black" id="content">
       <Profile />
     </section>
   );

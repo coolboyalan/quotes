@@ -43,7 +43,7 @@ const QuotesByAuthor = async ({ params }) => {
 
   if (!quotes || !quotes.length) {
     return (
-      <div className="md:px-20 pb-20 pt-10 justify-center md:justify-normal bg-white text-black">
+      <div className="md:px-20 pb-20 pt-10 justify-center md:justify-normal bg-white text-black" id="content">
         No quotes found
       </div>
     );
@@ -61,14 +61,14 @@ const QuotesByAuthor = async ({ params }) => {
 
   if (!quotes?.length) {
     return (
-      <section className="bg-white px-4 md:px-20 py-10 text-black min-h-100vh">
+      <section className="bg-white px-4 md:px-20 py-10 text-black min-h-100vh" id="content">
         'No quotes found'
       </section>
     );
   }
 
   return (
-    <section className="bg-white px-4 text-black min-h-[80vh]">
+    <section className="bg-white px-4 text-black min-h-[80vh]" id="content">
       <div className="flex flex-wrap md:px-20 pb-20 pt-10 justify-center md:justify-normal">
         {quotes.map((ele, index) => {
           const liked = likedQuotes?.includes(ele.id);
